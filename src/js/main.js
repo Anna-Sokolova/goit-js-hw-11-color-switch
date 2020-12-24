@@ -1,8 +1,8 @@
-import refs from "./refs.js";   //импорт файла с доступами
+import refs from "./refs.js"; //импорт файла с доступами
 import { colors } from "./data.js"; //импорт файла с массивом цветов
 // console.log(refs, colors);
 
-const {startBtnRef, stopBtnRef, body} = refs; // деструктр экпортируемого безымянного объекта
+const { startBtnRef, stopBtnRef, body } = refs; // деструктр экпортируемого безымянного объекта
 
 let timerId = null; //задаем счетчик для сетинтервала
 let isActive = false; //задаем переменную для проверки режима кнопки старт
@@ -15,27 +15,28 @@ const randomIntegerFromInterval = (min, max) => {
 //функция для добавления инлайн стиля фона из массива цветов
 const changeColors = () => {
   body.style.backgroundColor =
-    colors[randomIntegerFromInterval(0, colors.length-1)];
+    colors[randomIntegerFromInterval(0, colors.length - 1)];
 };
 
-
 //слушатель на кнопку Старт
-startBtnRef.addEventListener('click', () => {
-  if (isActive) {   //проверка активна кнопка или нет
+startBtnRef.addEventListener("click", () => {
+  if (isActive) {
+    //проверка активна кнопка или нет
     return;
   }
 
+  startBtnRef.disabled = true; //делаем кнопку неактивной при нажатии
   isActive = true; //при нажатии на Старт принудительно делаем кнопку активной
-
-  timerId = setInterval(() => { //задаем интервал для изменения цвета фона каждую 1 сек
+  timerId = setInterval(() => {
+    //задаем интервал для изменения цвета фона каждую 1 сек
     changeColors();
   }, 1000);
 });
 
-
 //слушатель на кнопку Стоп
-stopBtnRef.addEventListener('click', () => {
+stopBtnRef.addEventListener("click", () => {
   clearInterval(timerId); // очищаем сетинтервал
   isActive = false; //при нажатии на стоп возвращаем значение кнопке Старт isActive,чтоб можно было снова кликать по ней
   timerId = null; //зачищаем счетчик
+  startBtnRef.disabled = false; //убираем атрибут disabled и кнопка вновь становится активна
 });
